@@ -81,6 +81,28 @@ nav a:hover {
   color: var(--primary);
 }
 
+.nav-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.2s;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-family: inherit;
+}
+
+.nav-btn:hover {
+  color: var(--primary);
+}
+
+.nav-btn.active {
+  color: var(--primary);
+  background: rgba(16, 185, 129, 0.1);
+}
+
 .btn-login {
   padding: 0.5rem 1.5rem;
   background: var(--primary);
