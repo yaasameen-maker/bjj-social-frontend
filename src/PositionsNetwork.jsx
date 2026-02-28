@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { useAuth } from './contexts/AuthContext'
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
 
@@ -289,16 +290,22 @@ const SYSTEMS = {
 }
 
 function PositionsNetwork() {
+  const [positions, setPositions] = useState(SYSTEMS)
   const [currentSystem, setCurrentSystem] = useState('overview')
   const [selectedNode, setSelectedNode] = useState(null)
-  const [positions, setPositions] = useState(SYSTEMS)
   const canvasRef = useRef(null)
+  const { token } = useAuth()
 
   useEffect(() => {
     // Try to fetch from backend, fallback to local data
     const fetchSystems = async () => {
       try {
-        const res = await fetch(`${API_BASE_URL}/api/positions/systems`)
+        const headers = {}
+        if (token) {
+          headers['Authorization'] = `Bearer ${token}`
+        }
+        
+        const res = await fetch(`${API_BASE_URL}/api/positions/systems`, { headers })
         if (res.ok) {
           const data = await res.json()
           setPositions(data)
@@ -309,7 +316,7 @@ function PositionsNetwork() {
     }
 
     fetchSystems()
-  }, [])
+  }, [token])
 
   useEffect(() => {
     renderNetwork()

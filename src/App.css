@@ -103,12 +103,23 @@ nav a:hover {
   background: rgba(16, 185, 129, 0.1);
 }
 
+.user-info {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  padding: 0.5rem 0;
+}
+
 .btn-login {
   padding: 0.5rem 1.5rem;
   background: var(--primary);
   color: white;
+  border: none;
   border-radius: 0.5rem;
   font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  transition: background 0.2s;
 }
 
 .btn-login:hover {
@@ -348,6 +359,69 @@ nav a:hover {
   border-radius: 0.5rem;
   margin-bottom: 0.75rem;
   color: var(--text-secondary);
+}
+
+.info-banner {
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid var(--secondary);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-secondary);
+}
+
+.error-message {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid var(--error);
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  color: var(--error);
+  margin-top: 1rem;
+}
+
+.positions-timeline {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.positions-timeline ul {
+  list-style: none;
+}
+
+.positions-timeline li {
+  padding: 0.75rem 1rem;
+  background: rgba(16, 185, 129, 0.1);
+  border-left: 3px solid var(--primary);
+  border-radius: 0.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-secondary);
+}
+
+.positions-timeline li.more-positions {
+  font-style: italic;
+  color: var(--text-secondary);
+  background: transparent;
+  border-left: none;
+  padding-left: 0;
+}
+
+.analysis-text {
+  background: rgba(16, 185, 129, 0.05);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  margin-top: 2rem;
+}
+
+.analysis-text h4 {
+  margin-bottom: 1rem;
+  color: var(--text);
+}
+
+.analysis-text p {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  white-space: pre-wrap;
 }
 
 /* Footer */

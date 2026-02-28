@@ -2,9 +2,14 @@ import './App.css'
 import { useState } from 'react'
 import VideoAnalysisUI from './VideoAnalysisUI'
 import PositionsNetwork from './PositionsNetwork'
+import { AuthProvider, useAuth } from './contexts/AuthContext'
+import { AuthModal } from './components/AuthModal'
 
-function App() {
+function AppContent() {
   const [activeTab, setActiveTab] = useState('analysis')
+  const [authModalOpen, setAuthModalOpen] = useState(false)
+  const [authMode, setAuthMode] = useState('login')
+  const { user, logout } = useAuth()
 
   return (
     <div className="app">
@@ -26,7 +31,27 @@ function App() {
           >
             Positions Map
           </button>
-          <a href="#" className="btn-login">Login</a>
+          {user ? (
+            <>
+              <span className="user-info">{user.username}</span>
+              <button 
+                className="btn-login"
+                onClick={logout}
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <button 
+              className="btn-login"
+              onClick={() => {
+                setAuthMode('login')
+                setAuthModalOpen(true)
+              }}
+            >
+              Login
+            </button>
+          )}
         </nav>
       </header>
 
@@ -38,7 +63,21 @@ function App() {
       <footer className="footer">
         <p>© 2025 BJJ Social - AI Training Platform</p>
       </footer>
+
+      <AuthModal 
+        isOpen={authModalOpen} 
+        onClose={() => setAuthModalOpen(false)}
+        initialMode={authMode}
+      />
     </div>
+  )
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   )
 }
 
