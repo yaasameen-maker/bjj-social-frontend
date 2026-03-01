@@ -70,17 +70,18 @@ export function AuthProvider({ children }) {
     }
   }, [])
 
-  const login = useCallback(async (email, password) => {
+  const login = useCallback(async (email, password, rememberMe = false) => {
     setLoading(true)
     setError(null)
     try {
-      const formData = new FormData()
-      formData.append('username', email) // OAuth2 uses 'username' for email
-      formData.append('password', password)
-
-      const res = await fetch(`${API_BASE_URL}/api/auth/login`, {
+      const res = await fetch(`${API_BASE_URL}/api/auth/login-json`, {
         method: 'POST',
-        body: formData,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email,
+          password,
+          remember_me: rememberMe,
+        }),
       })
 
       if (!res.ok) {
@@ -116,8 +117,56 @@ export function AuthProvider({ children }) {
     setUser(null)
   }, [])
 
+  const forgotPassword = useCallback(async (email) => {
+    setLoading(true)
+    setError(null)
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/auth/forgot-password`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      })
+
+      if (!res.ok) {
+        const data = await res.json()
+        throw new Error(data.detail || 'Request failed')
+      }
+
+      return await res.json()
+    } catch (err) {
+      setError(err.message)
+      throw err
+    } finally {
+      setLoading(false)
+    }
+  }, [])
+
+  const resetPassword = useCallback(async (token, newPassword) => {
+    setLoading(true)
+    setError(null)
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/auth/reset-password`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token, new_password: newPassword }),
+      })
+
+      if (!res.ok) {
+        const data = await res.json()
+        throw new Error(data.detail || 'Reset failed')
+      }
+
+      return await res.json()
+    } catch (err) {
+      setError(err.message)
+      throw err
+    } finally {
+      setLoading(false)
+    }
+  }, [])
+
   return (
-    <AuthContext.Provider value={{ user, token, loading, error, signup, login, logout }}>
+    <AuthContext.Provider value={{ user, token, loading, error, signup, login, logout, forgotPassword, resetPassword }}>
       {children}
     </AuthContext.Provider>
   )

@@ -251,6 +251,36 @@ export function CoachService() {
   }
 }
 
+export function SeminarService() {
+  return {
+    // Get upcoming seminars (public endpoint)
+    async getUpcoming(limit = 20) {
+      const res = await fetch(`${API_BASE_URL}/api/seminars/upcoming?limit=${limit}`)
+      if (!res.ok) throw new Error('Failed to fetch upcoming seminars')
+      return res.json()
+    },
+
+    // List all seminars with filters
+    async listSeminars(status = null, country = null, isGi = null, skip = 0, limit = 50) {
+      let url = `${API_BASE_URL}/api/seminars?skip=${skip}&limit=${limit}`
+      if (status) url += `&status=${status}`
+      if (country) url += `&country=${country}`
+      if (isGi !== null) url += `&is_gi=${isGi}`
+
+      const res = await fetch(url)
+      if (!res.ok) throw new Error('Failed to fetch seminars')
+      return res.json()
+    },
+
+    // Get seminar details
+    async getSeminar(seminarId) {
+      const res = await fetch(`${API_BASE_URL}/api/seminars/${seminarId}`)
+      if (!res.ok) throw new Error('Failed to fetch seminar')
+      return res.json()
+    },
+  }
+}
+
 // Export all services as a single hook
 export function useBackendServices() {
   return {
@@ -259,5 +289,6 @@ export function useBackendServices() {
     calendar: CalendarService(),
     gyms: GymService(),
     coach: CoachService(),
+    seminars: SeminarService(),
   }
 }

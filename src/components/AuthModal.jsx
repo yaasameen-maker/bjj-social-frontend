@@ -9,14 +9,17 @@ export function AuthModal({ isOpen, onClose, initialMode = 'login' }) {
   const [username, setUsername] = useState('')
   const [beltRank, setBeltRank] = useState('white')
   const [academy, setAcademy] = useState('')
-  const { login, signup, error, loading } = useAuth()
+  const [rememberMe, setRememberMe] = useState(false)
+  const [forgotEmail, setForgotEmail] = useState('')
+  const [forgotSent, setForgotSent] = useState(false)
+  const { login, signup, forgotPassword, error, loading } = useAuth()
 
   if (!isOpen) return null
 
   const handleLogin = async (e) => {
     e.preventDefault()
     try {
-      await login(email, password)
+      await login(email, password, rememberMe)
       onClose()
     } catch (err) {
       console.error('Login failed:', err)
@@ -30,6 +33,16 @@ export function AuthModal({ isOpen, onClose, initialMode = 'login' }) {
       onClose()
     } catch (err) {
       console.error('Signup failed:', err)
+    }
+  }
+
+  const handleForgotPassword = async (e) => {
+    e.preventDefault()
+    try {
+      await forgotPassword(forgotEmail)
+      setForgotSent(true)
+    } catch (err) {
+      console.error('Forgot password failed:', err)
     }
   }
 
@@ -62,6 +75,27 @@ export function AuthModal({ isOpen, onClose, initialMode = 'login' }) {
                   disabled={loading}
                 />
               </div>
+              <div className="form-row">
+                <label className="checkbox-label">
+                  <input
+                    type="checkbox"
+                    checked={rememberMe}
+                    onChange={(e) => setRememberMe(e.target.checked)}
+                  />
+                  <span>Remember me</span>
+                </label>
+                <button
+                  type="button"
+                  className="btn-forgot"
+                  onClick={() => {
+                    setMode('forgot')
+                    setForgotEmail(email)
+                    setForgotSent(false)
+                  }}
+                >
+                  Forgot password?
+                </button>
+              </div>
               {error && <div className="error-message">{error}</div>}
               <button type="submit" className="btn-auth" disabled={loading}>
                 {loading ? 'Logging in...' : 'Login'}
@@ -79,6 +113,46 @@ export function AuthModal({ isOpen, onClose, initialMode = 'login' }) {
                 }}
               >
                 Sign up
+              </button>
+            </p>
+          </div>
+        ) : mode === 'forgot' ? (
+          <div className="auth-form">
+            <h2>Reset Password</h2>
+            {forgotSent ? (
+              <div className="forgot-success">
+                <p>If an account exists for <strong>{forgotEmail}</strong>, you will receive a password reset link.</p>
+                <p className="forgot-note">Check your inbox and spam folder.</p>
+                <button
+                  type="button"
+                  className="btn-auth"
+                  onClick={() => setMode('login')}
+                >
+                  Back to Login
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleForgotPassword}>
+                <p className="forgot-desc">Enter your email and we'll send you a link to reset your password.</p>
+                <div className="form-group">
+                  <label>Email</label>
+                  <input
+                    type="email"
+                    value={forgotEmail}
+                    onChange={(e) => setForgotEmail(e.target.value)}
+                    required
+                    disabled={loading}
+                  />
+                </div>
+                {error && <div className="error-message">{error}</div>}
+                <button type="submit" className="btn-auth" disabled={loading}>
+                  {loading ? 'Sending...' : 'Send Reset Link'}
+                </button>
+              </form>
+            )}
+            <p className="auth-switch">
+              <button type="button" onClick={() => setMode('login')}>
+                Back to Login
               </button>
             </p>
           </div>
