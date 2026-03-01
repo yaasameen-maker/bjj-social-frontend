@@ -1,0 +1,229 @@
+.ai-coach-container {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  background: var(--dark-light);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  padding: 2rem;
+}
+
+.coach-header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.coach-header h2 {
+  margin: 0 0 0.5rem 0;
+  color: var(--text);
+  font-size: 2rem;
+}
+
+.coach-header p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+}
+
+.coach-input-section {
+  margin-bottom: 2rem;
+}
+
+.input-group {
+  margin-bottom: 1.5rem;
+}
+
+.input-group label {
+  display: block;
+  font-weight: 600;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+
+.input-group textarea,
+.input-group select {
+  width: 100%;
+  padding: 1rem;
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 1rem;
+  resize: vertical;
+  transition: border-color 0.2s;
+}
+
+.input-group textarea:focus,
+.input-group select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.input-group textarea::placeholder {
+  color: var(--text-secondary);
+}
+
+.options-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.btn-ask {
+  width: 100%;
+  padding: 1rem 2rem;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.btn-ask:hover:not(:disabled) {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+}
+
+.btn-ask:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.error-message {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid var(--error);
+  color: var(--error);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin: 1rem 0;
+}
+
+.coach-response {
+  animation: slideIn 0.3s ease-out;
+  background: rgba(16, 185, 129, 0.05);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  margin-top: 2rem;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.coach-response h3 {
+  margin-top: 0;
+  color: var(--text);
+  font-size: 1.5rem;
+}
+
+.response-answer {
+  background: rgba(15, 23, 42, 0.3);
+  padding: 1.5rem;
+  border-left: 4px solid var(--primary);
+  border-radius: 0.5rem;
+  margin: 1.5rem 0;
+}
+
+.response-answer p {
+  margin: 0;
+  color: var(--text);
+  line-height: 1.8;
+  font-size: 1.05rem;
+}
+
+.coach-response h4 {
+  margin: 1.5rem 0 1rem 0;
+  color: var(--text);
+  font-size: 1.125rem;
+}
+
+.response-tips {
+  margin-bottom: 1.5rem;
+}
+
+.response-tips ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.response-tips li {
+  padding: 0.75rem 1rem;
+  background: rgba(59, 130, 246, 0.1);
+  border-left: 3px solid var(--secondary);
+  border-radius: 0.5rem;
+  margin-bottom: 0.75rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.response-positions {
+  margin-bottom: 1.5rem;
+}
+
+.position-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.position-tag {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: rgba(16, 185, 129, 0.2);
+  border: 1px solid var(--primary);
+  border-radius: 999px;
+  color: var(--primary);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.btn-ask-again {
+  width: 100%;
+  padding: 0.875rem 1.5rem;
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--primary);
+  border: 1px solid var(--primary);
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 1.5rem;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.btn-ask-again:hover {
+  background: rgba(16, 185, 129, 0.2);
+}
+
+@media (max-width: 768px) {
+  .ai-coach-container {
+    padding: 1.5rem;
+  }
+
+  .options-row {
+    grid-template-columns: 1fr;
+  }
+
+  .coach-header h2 {
+    font-size: 1.5rem;
+  }
+}

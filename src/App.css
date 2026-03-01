@@ -424,6 +424,39 @@ nav a:hover {
   white-space: pre-wrap;
 }
 
+.auth-required {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 3rem 2rem;
+  text-align: center;
+}
+
+.auth-required h2 {
+  margin: 0;
+  color: var(--text);
+  font-size: 2rem;
+}
+
+.btn-login-modal {
+  padding: 0.875rem 2rem;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.btn-login-modal:hover {
+  background: var(--primary-dark);
+}
+
 /* Footer */
 .footer {
   text-align: center;
