@@ -1,5 +1,5 @@
 import './App.css'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import VideoAnalysisUI from './VideoAnalysisUI'
 import PositionsNetwork from './PositionsNetwork'
 import UserProfile from './components/UserProfile'
@@ -9,6 +9,7 @@ import HomePage from './components/HomePage'
 import SeminarsList from './components/SeminarsList'
 import CalendarView from './components/CalendarView'
 import GymsMap from './components/GymsMap'
+import ResetPassword from './components/ResetPassword'
 import { AuthProvider, useAuth } from './contexts/AuthContext'
 import { AuthModal } from './components/AuthModal'
 
@@ -16,11 +17,25 @@ function AppContent() {
   const [activeTab, setActiveTab] = useState('home')
   const [authModalOpen, setAuthModalOpen] = useState(false)
   const [authMode, setAuthMode] = useState('login')
+  const [showResetPassword, setShowResetPassword] = useState(false)
   const { user, logout } = useAuth()
+
+  // Check if user is on password reset page
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    if (params.get('token')) {
+      setShowResetPassword(true)
+    }
+  }, [])
 
   const openAuth = (mode = 'login') => {
     setAuthMode(mode)
     setAuthModalOpen(true)
+  }
+
+  // Show reset password page if token is present
+  if (showResetPassword) {
+    return <ResetPassword />
   }
 
   return (
