@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import ReactMarkdown from 'react-markdown'
 import { useAuth } from './contexts/AuthContext'
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
@@ -207,10 +208,19 @@ function VideoAnalysisUI() {
             </div>
           )}
 
-          {analysis.llm_analysis?.analysis && (
+          {analysis.llm_analysis && (
             <div className="analysis-text">
               <h4>📝 Detailed Analysis</h4>
-              <p>{analysis.llm_analysis.analysis}</p>
+              {analysis.llm_analysis.success === false ? (
+                <p style={{ color: 'var(--error)' }}>{analysis.llm_analysis.error}</p>
+              ) : (
+                <>
+                  <ReactMarkdown>{analysis.llm_analysis.analysis}</ReactMarkdown>
+                  {analysis.llm_analysis.model && (
+                    <p className="model-attribution">Analysed by {analysis.llm_analysis.model}</p>
+                  )}
+                </>
+              )}
             </div>
           )}
         </div>

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import ReactMarkdown from 'react-markdown'
 import { CoachService } from '../services/BackendServices'
 import './AICoach.css'
 
@@ -100,7 +101,7 @@ export function AICoach() {
         <div className="coach-response">
           <h3>💡 Coach's Advice</h3>
           <div className="response-answer">
-            <p>{response.answer}</p>
+            <ReactMarkdown>{response.answer}</ReactMarkdown>
           </div>
 
           {response.tips && response.tips.length > 0 && (

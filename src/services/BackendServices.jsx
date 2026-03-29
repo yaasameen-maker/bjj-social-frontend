@@ -46,7 +46,7 @@ export function UserProfileService() {
 
     // Change password
     async changePassword(currentPassword, newPassword) {
-      const res = await fetch(`${API_BASE_URL}/api/users/me/password`, {
+      const res = await fetch(`${API_BASE_URL}/api/users/me/change-password`, {
         method: 'POST',
         headers,
         body: JSON.stringify({
@@ -111,7 +111,7 @@ export function TournamentService() {
     // Register for tournament
     async registerForTournament(tournamentId, weightClass, division, isGi = true) {
       const res = await fetch(
-        `${API_BASE_URL}/api/tournaments/${tournamentId}/register`,
+        `${API_BASE_URL}/api/registrations/tournaments/${tournamentId}`,
         {
           method: 'POST',
           headers: { ...headers, 'Content-Type': 'application/json' },
@@ -208,7 +208,7 @@ export function GymService() {
     // Search gyms nearby (by coordinates)
     async searchNearby(latitude, longitude, radiusKm = 50) {
       const res = await fetch(
-        `${API_BASE_URL}/api/gyms/nearby?lat=${latitude}&lng=${longitude}&radius=${radiusKm}`,
+        `${API_BASE_URL}/api/gyms/nearby?lat=${latitude}&lon=${longitude}&radius_km=${radiusKm}`,
         { headers }
       )
       if (!res.ok) throw new Error('Failed to search nearby gyms')
