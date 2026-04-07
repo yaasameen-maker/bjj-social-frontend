@@ -2,13 +2,13 @@ import { createContext, useState, useContext, useCallback, useEffect } from 'rea
 
 const AuthContext = createContext(null)
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
   const [token, setToken] = useState(localStorage.getItem('access_token'))
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
-
-  const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
 
   // Initialize user on mount if token exists
   useEffect(() => {
@@ -35,40 +35,8 @@ export function AuthProvider({ children }) {
       }
       verifyToken()
     }
-  }, []) // Only run once on mount
-
-  const signup = useCallback(async (username, email, password, beltRank = 'white', academy = null) => {
-    setLoading(true)
-    setError(null)
-    try {
-      const res = await fetch(`${API_BASE_URL}/api/auth/signup`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          username,
-          email,
-          password,
-          belt_rank: beltRank,
-          academy: academy || '',
-        }),
-      })
-
-      if (!res.ok) {
-        const data = await res.json()
-        throw new Error(data.detail || 'Signup failed')
-      }
-
-      const userData = await res.json()
-      // After signup, auto-login
-      await login(email, password)
-      return userData
-    } catch (err) {
-      setError(err.message)
-      throw err
-    } finally {
-      setLoading(false)
-    }
-  }, [])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []) // Only run once on mount to verify stored token
 
   const login = useCallback(async (email, password, rememberMe = false) => {
     setLoading(true)
@@ -110,6 +78,39 @@ export function AuthProvider({ children }) {
       setLoading(false)
     }
   }, [])
+
+  const signup = useCallback(async (username, email, password, beltRank = 'white', academy = null) => {
+    setLoading(true)
+    setError(null)
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/auth/signup`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username,
+          email,
+          password,
+          belt_rank: beltRank,
+          academy: academy || '',
+        }),
+      })
+
+      if (!res.ok) {
+        const data = await res.json()
+        throw new Error(data.detail || 'Signup failed')
+      }
+
+      const userData = await res.json()
+      // After signup, auto-login
+      await login(email, password)
+      return userData
+    } catch (err) {
+      setError(err.message)
+      throw err
+    } finally {
+      setLoading(false)
+    }
+  }, [login])
 
   const logout = useCallback(() => {
     localStorage.removeItem('access_token')
@@ -172,6 +173,7 @@ export function AuthProvider({ children }) {
   )
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useAuth() {
   const context = useContext(AuthContext)
   if (!context) {

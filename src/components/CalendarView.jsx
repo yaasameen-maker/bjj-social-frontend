@@ -27,6 +27,7 @@ export default function CalendarView() {
     if (user) {
       fetchEvents()
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, currentMonth])
 
   const fetchEvents = async () => {
@@ -153,6 +154,9 @@ export default function CalendarView() {
         <h3>{monthName}</h3>
         <button onClick={goToNextMonth}>Next →</button>
       </div>
+
+      {loading && <div className="calendar-loading">Loading events...</div>}
+      {error && <div className="calendar-error">{error}</div>}
 
       <div className="calendar-grid">
         <div className="calendar-weekdays">

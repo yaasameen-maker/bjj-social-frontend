@@ -25,7 +25,7 @@ export default function GymsMap() {
             lng: position.coords.longitude,
           })
         },
-        (err) => {
+        () => {
           console.log('Location access denied, showing all gyms')
           fetchAllGyms()
         }
@@ -33,12 +33,14 @@ export default function GymsMap() {
     } else {
       fetchAllGyms()
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
     if (userLocation) {
       fetchNearbyGyms()
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userLocation, searchRadius])
 
   const fetchAllGyms = async () => {
@@ -63,7 +65,7 @@ export default function GymsMap() {
         searchRadius
       )
       setGyms(data)
-    } catch (err) {
+    } catch {
       // Fallback to all gyms if nearby search fails
       await fetchAllGyms()
     } finally {

@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react'
 import { useAuth } from '../contexts/AuthContext'
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
@@ -281,14 +280,3 @@ export function SeminarService() {
   }
 }
 
-// Export all services as a single hook
-export function useBackendServices() {
-  return {
-    userProfile: UserProfileService(),
-    tournaments: TournamentService(),
-    calendar: CalendarService(),
-    gyms: GymService(),
-    coach: CoachService(),
-    seminars: SeminarService(),
-  }
-}

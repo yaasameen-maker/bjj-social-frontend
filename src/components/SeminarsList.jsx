@@ -16,6 +16,7 @@ export default function SeminarsList() {
 
   useEffect(() => {
     fetchSeminars()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const fetchSeminars = async () => {

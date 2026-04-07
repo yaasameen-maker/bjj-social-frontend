@@ -320,6 +320,7 @@ function PositionsNetwork() {
 
   useEffect(() => {
     renderNetwork()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentSystem, selectedNode, positions])
 
   const renderNetwork = () => {
